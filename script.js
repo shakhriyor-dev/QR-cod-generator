@@ -1,8 +1,9 @@
 const textInput = document.getElementById('text-input');
 const generateBtn = document.getElementById('generate-btn');
+const downloadBtn = document.getElementById('download-btn');
 const qrContainer = document.getElementById('qrcode');
 
-// QR Kod obyektini yaratish (bir marta)
+// QR Kod obyektini sozlash
 const qrcode = new QRCode(qrContainer, {
     width: 200,
     height: 200,
@@ -11,12 +12,35 @@ const qrcode = new QRCode(qrContainer, {
     correctLevel: QRCode.CorrectLevel.H
 });
 
+// Yaratish funksiyasi
 generateBtn.addEventListener('click', () => {
-    const text = textInput.value;
+    const value = textInput.value.trim();
 
-    if (text.trim() !== "") {
-        qrcode.makeCode(text); // Kiritilgan matndan QR kod yaratadi
+    if (value) {
+        qrcode.makeCode(value);
+        
+        // QR kod rasm bo'lib shakllanishi uchun ozgina kutamiz
+        setTimeout(() => {
+            downloadBtn.style.display = "block";
+        }, 300);
     } else {
-        alert("Iltimos, biror matn kiriting!");
+        alert("Iltimos, matn yoki link kiriting!");
+        downloadBtn.style.display = "none";
     }
+});
+
+// Yuklab olish funksiyasi
+downloadBtn.addEventListener('click', () => {
+    // QR kod rasm (img) yoki canvas elementida bo'ladi
+    const img = qrContainer.querySelector('img');
+    const canvas = qrContainer.querySelector('canvas');
+
+    // Rasm manzilini olish
+    const src = img ? img.src : canvas.toDataURL("image/png");
+
+    // Virtual link yaratish va bosish
+    const link = document.createElement('a');
+    link.href = src;
+    link.download = 'qrcode-by-me.png';
+    link.click();
 });
