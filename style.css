@@ -185,14 +185,21 @@ input[type="color"]::-webkit-color-swatch {
 }
 
 #qrcode {
-    margin-top: 30px;
+    margin-top: 25px;
     padding: 15px;
     background: white;
     border-radius: 16px;
-    display: none; /* Dastlab yashirin */
-    animation: fadeIn 0.5s ease;
+    display: none; /* JS orqali 'flex' qilinadi */
+    justify-content: center;
+    align-items: center;
+    min-height: 180px; /* Joyi oldindan tayyor turishi uchun */
 }
 
+/* Ichidagi rasmni containerga moslash */
+#qrcode img, #qrcode canvas {
+    max-width: 100%;
+    height: auto !important; /* Kutubxona bergan noto'g'ri heightni yengish uchun */
+}
 @keyframes fadeIn {
     from { opacity: 0; transform: scale(0.9); }
     to { opacity: 1; transform: scale(1); }
