@@ -1,60 +1,65 @@
 const textInput = document.getElementById('text-input');
+const colorInput = document.getElementById('color-input');
 const generateBtn = document.getElementById('generate-btn');
 const downloadBtn = document.getElementById('download-btn');
 const qrContainer = document.getElementById('qrcode');
 
-// QR Kod obyektini sozlash
-const qrcode = new QRCode(qrContainer, {
-    width: 200,
-    height: 200,
-    colorDark: "#000000",
-    colorLight: "#ffffff",
-    correctLevel: QRCode.CorrectLevel.H
-});
-
-// Yaratish funksiyasi
+// Yaratish tugmasi hodisasi
 generateBtn.addEventListener('click', () => {
-    const value = textInput.value.trim();
+    const text = textInput.value.trim();
+    const color = colorInput.value;
 
-    if (value) {
-        // QR kodni tozalab qayta yaratish
-        qrContainer.innerHTML = ""; 
+    if (text !== "") {
+        // Avvalgi QR kodni tozalash
+        qrContainer.innerHTML = "";
+
+        // Yangi QR kod yaratish
         new QRCode(qrContainer, {
-            text: value,
+            text: text,
             width: 200,
-            height: 200
+            height: 200,
+            colorDark: color,
+            colorLight: "#ffffff",
+            correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Rasm tayyor bo'lishi bilan yuklab olish tugmasini ko'rsatish
+        // Rasm tayyor bo'lishi uchun biroz kutish va tugmani ko'rsatish
         setTimeout(() => {
-            downloadBtn.style.display = "block";
-        }, 300);
+            const img = qrContainer.querySelector('img');
+            if (img && img.src) {
+                downloadBtn.style.display = "block";
+            }
+        }, 400);
+
     } else {
-        // Agar input bo'sh bo'lsa
-        alert("Iltimos, matn yoki link kiriting!");
-        qrContainer.innerHTML = ""; // QR kodni o'chirish
-        downloadBtn.style.display = "none"; // Tugmani yashirish
+        alert("Iltimos, biror matn yoki URL kiriting!");
+        qrContainer.innerHTML = "";
+        downloadBtn.style.display = "none";
     }
 });
 
-// Yuklab olish funksiyasi
+// Yuklab olish tugmasi hodisasi
 downloadBtn.addEventListener('click', () => {
     const img = qrContainer.querySelector('img');
     const canvas = qrContainer.querySelector('canvas');
 
     if (img || canvas) {
-        const src = img ? img.src : canvas.toDataURL("image/png");
+        // Rasm manbasi (URL) ni olish
+        const qrImageSrc = img ? img.src : canvas.toDataURL("image/png");
+        
         const link = document.createElement('a');
-        link.href = src;
-        link.download = 'qrcode.png';
+        link.href = qrImageSrc;
+        link.download = 'my-custom-qr.png';
+        document.body.appendChild(link);
         link.click();
+        document.body.removeChild(link);
     }
 });
 
-// Input yozilayotgan paytda tugmani tekshirish (ixtiyoriy)
+// Input tozalansa, natijalarni ham tozalash
 textInput.addEventListener('input', () => {
     if (textInput.value.trim() === "") {
-        downloadBtn.style.display = "none";
         qrContainer.innerHTML = "";
+        downloadBtn.style.display = "none";
     }
 });
