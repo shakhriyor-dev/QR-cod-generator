@@ -3,31 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pro QR Generator</title>
+    <title>Neo QR Generator</title>
     <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
 </head>
 <body>
 
-    <div class="container">
-        <h1>QR Kod Generatori</h1>
-        <p>Ma'lumot kiriting va rangni tanlang</p>
-        
-        <div class="input-group">
-            <input type="text" id="text-input" placeholder="Masalan: https://github.com/siz">
+    <div class="background-blobs">
+        <div class="blob"></div>
+        <div class="blob"></div>
+    </div>
+
+    <div class="card">
+        <div class="card-content">
+            <h1>QR <span class="gradient-text">Studio</span></h1>
+            <p>Ma'lumotlaringizni san'at asariga aylantiring</p>
             
-            <div class="settings">
-                <div class="color-picker">
-                    <label for="color-input">Kod rangi:</label>
-                    <input type="color" id="color-input" value="#000000">
+            <div class="input-container">
+                <input type="text" id="text-input" placeholder=" " required>
+                <label>Havola yoki matn...</label>
+                <div class="underline"></div>
+            </div>
+
+            <div class="controls">
+                <div class="color-wrapper">
+                    <input type="color" id="color-input" value="#6366f1">
+                    <span>Kod rangi</span>
                 </div>
             </div>
 
-            <button id="generate-btn">QR Kodni yaratish</button>
+            <button id="generate-btn">
+                <span>Yaratish</span>
+                <div class="liquid"></div>
+            </button>
+
+            <div id="qrcode"></div>
+
+            <button id="download-btn" class="download-btn">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+                Yuklab olish
+            </button>
         </div>
-
-        <div id="qrcode"></div>
-
-        <button id="download-btn" class="download-btn">PNG formatda yuklab olish</button>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
