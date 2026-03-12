@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="uz">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>QR Kod Generatori</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    
+
+    <div class="container">
+        <h1>QR Kod Generatori</h1>
+        <p>Matn yoki URL kiriting:</p>
+        
+        <input type="text" id="text-input" placeholder="Masalan: https://google.com">
+        <button id="generate-btn">Yaratish</button>
+
+        <div id="qrcode"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
