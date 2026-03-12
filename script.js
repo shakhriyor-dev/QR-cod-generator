@@ -4,62 +4,40 @@ const generateBtn = document.getElementById('generate-btn');
 const downloadBtn = document.getElementById('download-btn');
 const qrContainer = document.getElementById('qrcode');
 
-// Yaratish tugmasi hodisasi
+// Dastlab tugmani va QRni yashirish mantiqi o'zgarmadi
 generateBtn.addEventListener('click', () => {
     const text = textInput.value.trim();
     const color = colorInput.value;
 
     if (text !== "") {
-        // Avvalgi QR kodni tozalash
         qrContainer.innerHTML = "";
+        qrContainer.style.display = "flex"; // Ko'rinadigan qilish
 
-        // Yangi QR kod yaratish
         new QRCode(qrContainer, {
             text: text,
-            width: 200,
-            height: 200,
+            width: 180,
+            height: 180,
             colorDark: color,
             colorLight: "#ffffff",
             correctLevel: QRCode.CorrectLevel.H
         });
 
-        // Rasm tayyor bo'lishi uchun biroz kutish va tugmani ko'rsatish
         setTimeout(() => {
-            const img = qrContainer.querySelector('img');
-            if (img && img.src) {
-                downloadBtn.style.display = "block";
-            }
+            downloadBtn.style.display = "flex";
         }, 400);
-
     } else {
-        alert("Iltimos, biror matn yoki URL kiriting!");
-        qrContainer.innerHTML = "";
+        alert("Iltimos, matn kiriting!");
+        qrContainer.style.display = "none";
         downloadBtn.style.display = "none";
     }
 });
 
-// Yuklab olish tugmasi hodisasi
 downloadBtn.addEventListener('click', () => {
     const img = qrContainer.querySelector('img');
     const canvas = qrContainer.querySelector('canvas');
-
-    if (img || canvas) {
-        // Rasm manbasi (URL) ni olish
-        const qrImageSrc = img ? img.src : canvas.toDataURL("image/png");
-        
-        const link = document.createElement('a');
-        link.href = qrImageSrc;
-        link.download = 'my-custom-qr.png';
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-    }
-});
-
-// Input tozalansa, natijalarni ham tozalash
-textInput.addEventListener('input', () => {
-    if (textInput.value.trim() === "") {
-        qrContainer.innerHTML = "";
-        downloadBtn.style.display = "none";
-    }
+    const src = img ? img.src : canvas.toDataURL("image/png");
+    const link = document.createElement('a');
+    link.href = src;
+    link.download = 'neo-qr.png';
+    link.click();
 });
